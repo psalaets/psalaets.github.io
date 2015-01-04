@@ -69,7 +69,7 @@ var addStream = require('add-stream');
 
 gulp.task('build-app.js', function() {
   return gulp.src('app/scripts/**/*.js')
-    .pipe(concat('app.js')) // concat your app js files somehow
+    //.pipe(concat your app js files somehow)
 
     // append the template js onto app.js
     .pipe(addStream.obj(prepareTemplates()))
