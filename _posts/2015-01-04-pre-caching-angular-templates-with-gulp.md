@@ -3,7 +3,7 @@ title: Pre-caching Angular templates with Gulp
 layout: post
 ---
 
-Development is easier when directive and route templates are in their own files. Angular will load them when needed. For production deployments you can include the templates as part of your initial js load to reduce http requests made when using your app.
+In production deployments, include directive and route templates as part of your initial js load to reduce http requests made when using your app.
 
 ### Versions used below
 
