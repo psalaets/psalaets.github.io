@@ -1,0 +1,8 @@
+Deploy:
+git push live gh-pages:master
+
+Watch:
+bundle exec jekyll serve --watch
+
+Watch (drafts included):
+bundle exec jekyll serve --watch --drafts
