@@ -12,3 +12,17 @@
   @extend .table;
   @extend .table-bordered;
 }
+
+// let long lines in code blocks scroll horizontally (mainly for small screens)
+// http://stackoverflow.com/a/16420440
+.highlight {
+  pre {
+    overflow-x: auto;
+
+    code {
+      overflow-wrap: normal;
+      word-wrap: normal;
+      white-space: pre;
+    }
+  }
+}
