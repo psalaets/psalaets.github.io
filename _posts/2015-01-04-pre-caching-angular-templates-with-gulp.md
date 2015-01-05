@@ -27,7 +27,9 @@ npm install gulp-angular-templatecache --save-dev
 
 ## 2. Create Angular module to drop templates into
 
-By default `gulp-angular-templatecache` uses the Angular module `templates` to populate `$templateCache` and assumes the `templates` module is already defined.
+By default `gulp-angular-templatecache` uses the Angular module `templates` to populate `$templateCache` and assumes the `templates` module is already defined. You can tweak the behavior of `gulp-angular-templatecache`. See its [README](https://github.com/miickel/gulp-angular-templatecache#gulp-angular-templatecache) for more info.
+
+Define the module
 
 {% highlight javascript %}
 // Include a comment about why this seemingly unused module exists
@@ -42,7 +44,7 @@ angular.module('app', [
 ]);
 {% endhighlight %}
 
-## 3. Use gulp-angular-templatecache in gulpfile.js
+## 3. Run gulp-angular-templatecache in your Gulp build
 
 Since `gulpfile.js` is just js, I'm wrapping the template pre-caching in a function. The resulting stream will be combined with the app js file in next step.
 
@@ -56,9 +58,7 @@ function prepareTemplates() {
 }
 {% endhighlight%}
 
-You can tweak the behavior of `gulp-angular-templatecache`. See its [README](https://github.com/miickel/gulp-angular-templatecache#gulp-angular-templatecache) for more info.
-
-## 4. Append resulting js into your app.js
+## 4. Append resulting js onto your app.js
 
 I use [add-stream](https://www.npmjs.com/package/add-stream) and [gulp-concat](https://www.npmjs.com/package/gulp-concat) to append the js generated in previous step with my app js.
 
