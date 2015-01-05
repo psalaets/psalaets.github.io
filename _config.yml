@@ -3,7 +3,7 @@ url: "http://paulsalaets.com" # the base hostname & protocol for your site
 title: "paulsalaets.com"
 
 # This is used by feed.xml. Uncomment if you want to use it.
-# description: "..."
+description: "Dev blog of Paul Salaets"
 
 gems:
   - jemoji
