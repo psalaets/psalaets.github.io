@@ -1,6 +1,7 @@
 ---
 title: Don't replace table children with Angular directives
 layout: post
+twitter_url: https://twitter.com/paulsalaets/status/558266291916918784
 ---
 
 Browsers react in a bad way when there are unexpected elements, like directives, inside a table.
