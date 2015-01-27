@@ -23,7 +23,7 @@ In production deployments, include directive and route templates as part of your
 I like using [gulp-angular-templatecache](https://www.npmjs.com/package/gulp-angular-templatecache) to generate js code that puts templates into `$templateCache`.
 
 {% highlight bash %}
-npm install gulp-angular-templatecache --save-dev
+$ npm install gulp-angular-templatecache --save-dev
 {% endhighlight %}
 
 ## 2. Create Angular module to drop templates into
