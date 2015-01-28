@@ -1,6 +1,7 @@
 ---
 title: Testing with Promises in Mocha
 layout: post
+permalink: /testing-with-promises-in-mocha
 twitter_url: https://twitter.com/paulsalaets/status/555013081370066945
 ---
 

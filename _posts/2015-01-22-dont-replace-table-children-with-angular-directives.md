@@ -1,6 +1,7 @@
 ---
 title: Don't replace table children with Angular directives
 layout: post
+permalink: /dont-replace-table-children-with-angular-directives
 twitter_url: https://twitter.com/paulsalaets/status/558266291916918784
 ---
 

@@ -1,6 +1,7 @@
 ---
 title: Pre-caching Angular templates with Gulp
 layout: post
+permalink: /pre-caching-angular-templates-with-gulp
 twitter_url: https://twitter.com/paulsalaets/status/552117335264620545
 ---
 
