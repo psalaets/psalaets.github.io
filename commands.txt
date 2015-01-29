@@ -1,8 +1,17 @@
-Deploy:
+# Deploy
+
 git push live gh-pages:master
 
-Watch:
+# Watch
 bundle exec jekyll serve --watch
 
-Watch (drafts included):
+# Watch (drafts included)
+
 bundle exec jekyll serve --watch --drafts
+
+# Publish
+
+1. Rename and move to _posts
+2. deploy
+3. tweet
+4. update with tweet url
