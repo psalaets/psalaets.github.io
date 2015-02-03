@@ -1,6 +1,7 @@
 ---
 title: Running subsets of Mocha test suites
 layout: post
+twitter_url: https://twitter.com/paulsalaets/status/562606862395523072
 ---
 
 Sometimes you don't want to run your entire test suite. Here are five ways to do it now.
