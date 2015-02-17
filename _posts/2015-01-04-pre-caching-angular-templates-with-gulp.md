@@ -48,14 +48,14 @@ angular.module('app', [
 
 ## 3. Run gulp-angular-templatecache in your Gulp build
 
-Since `gulpfile.js` is just js, I'm wrapping the template pre-caching in a function. The resulting stream will be combined with the app js file in next step.
+Since `gulpfile.js` is just JavaScript, I'm wrapping the template pre-caching in a function. The resulting stream will be combined with app.js in next step.
 
 {% highlight javascript %}
 var angularTemplateCache = require('gulp-angular-templatecache');
 
 function prepareTemplates() {
   return gulp.src('app/templates/**/*.html')
-    //.pipe(minify and preprocess templates here)
+    //.pipe(minify and preprocess the template html here)
     .pipe(angularTemplateCache());
 }
 {% endhighlight%}
