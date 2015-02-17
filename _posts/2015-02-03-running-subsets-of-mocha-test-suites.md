@@ -8,7 +8,7 @@ Sometimes you don't want to run your entire test suite. Here are five ways to do
 
 ### Versions used below
 
-{% highlight bash %}
+{% highlight javascript %}
 {
   "mocha": "2.1.0"
 }
