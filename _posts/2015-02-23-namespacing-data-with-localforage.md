@@ -10,7 +10,7 @@ Through the magic of GitHub Pages I've got multiple static web apps hosted at th
 
 {% highlight javascript %}
 {
-  "localForage": "1.2.2"
+  "localforage": "1.2.2"
 }
 {% endhighlight %}
 
