@@ -1,6 +1,7 @@
 ---
 title: Namespacing data with localForage
 layout: post
+twitter_url: https://twitter.com/paulsalaets/status/569863144421650432
 ---
 
 Through the magic of GitHub Pages I've got multiple static web apps hosted at the same domain. That means offline storage (IndexedDB, WebSQL, LocalStorage) for these apps is in the same bucket. Luckily localForage provides a way to keep the data separated.
