@@ -1,0 +1,31 @@
+---
+title: oops, something went wrong
+permalink: "/404.html"
+layout: page
+---
+
+<div class="row">
+  <div class="col-sm-6">
+    The page you are looking for isn't here.
+    <form action="https://www.google.com/search" method="get">
+      <input type="hidden" name="q" value="site:{{site.url}}">
+      <div class="form-group">
+        <label for="searchTerms" class="sr-only">Search Terms</label>
+        <input type="search" placeholder="Search Terms" class="form-control" id="searchTerms" name="q">
+      </div>
+      <button type="submit" class="btn btn-default">Search</button>
+    </form>
+  </div>
+</div>
+<script>
+  (function iife(window, document) {
+    var pathParts = window.location.pathname.split('/')
+    var lastPart = pathParts[pathParts.length - 1] || ''
+
+    document.getElementById('searchTerms').value = pathToSearchTerms(lastPart)
+
+    function pathToSearchTerms(path) {
+      return path.replace(/-/g, ' ')
+    }
+  })(this, this.document)
+</script>
