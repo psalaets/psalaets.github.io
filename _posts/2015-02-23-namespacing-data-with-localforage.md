@@ -14,7 +14,7 @@ Through the magic of GitHub Pages I've got multiple static web apps hosted at th
 }
 {% endhighlight %}
 
-Edit: Previously I said you need to set `name` *and* `storeName` but actually only `name` is required for namespacing data.
+Edited on 27 Feb 2015: Previously I said you need to set `name` *and* `storeName` but actually only `name` is required for namespacing data.
 
 ## Set a custom name
 
