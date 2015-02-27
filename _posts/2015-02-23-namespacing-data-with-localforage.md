@@ -14,20 +14,21 @@ Through the magic of GitHub Pages I've got multiple static web apps hosted at th
 }
 {% endhighlight %}
 
-## Set name and storeName
+Edit: Previously I said you need to set `name` *and* `storeName` but actually only `name` is required for namespacing data.
+
+## Set a custom name
 
 Override the [default config](http://mozilla.github.io/localForage/#config) by calling `localforage.config()`. This *must* be done before any [data API methods](http://mozilla.github.io/localForage/#data-api) are called.
 
 {% highlight javascript %}
 localforage.config({
-  name: 'My App',
-  storeName: 'my_app_data'
+  name: 'My App'
 });
 {% endhighlight %}
 
-The values for `name` and `storeName` should be unique across all other localForage instances on the domain. The `name` can be anything reasonable and `storeName` must be alphanumeric + underscores.
+The value for `name` should be unique across all other localForage instances on the domain. The value can be anything reasonable, I usually use my app's name.
 
-I usually use my app's name for `name` and something similar (adjusted to follow naming restrictions) for `storeName`. If you just need to keep your app's localForage data separate from other apps on the same domain, you're done.
+If you just need to keep your app's localForage data separate from other apps on the same domain, you're done.
 
 ## Creating multiple instances of localForage
 
@@ -35,8 +36,7 @@ Since 0.9.3 you can make more localForage instances using `localforage.createIns
 
 {% highlight javascript %}
 var otherStore = localforage.createInstance({
-  name: 'Other Store',
-  storeName: 'other_store_data'
+  name: 'Other Store'
 });
 {% endhighlight %}
 
@@ -48,13 +48,11 @@ I use native `Promise` below so it works without polyfills in [anything but IE](
 
 {% highlight javascript %}
 var store1 = localforage.createInstance({
-  name: 'Store 1',
-  storeName: 'store1_data'
+  name: 'Store 1'
 });
 
 var store2 = localforage.createInstance({
-  name: 'Store 2',
-  storeName: 'store2_data'
+  name: 'Store 2'
 });
 
 var key = 'key';
