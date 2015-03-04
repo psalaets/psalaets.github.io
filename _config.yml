@@ -7,6 +7,7 @@ description: "Dev blog of Paul Salaets"
 
 gems:
   - jemoji
+  - jekyll-redirect-from
 exclude:
   - "README.md"
   - "CHANGELOG.md"
