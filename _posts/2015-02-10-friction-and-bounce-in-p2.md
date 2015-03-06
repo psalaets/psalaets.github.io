@@ -2,6 +2,7 @@
 title: Friction and bounce in p2
 layout: post
 twitter_url: https://twitter.com/paulsalaets/status/565141470278348802
+meta_description: Controlling friction and bounce of bodies in the p2 physics engine
 ---
 
 p2 is a JavaScript 2D physics library that works in the browser and node. Setting an object's friction and bounce is not obvious at first glance.

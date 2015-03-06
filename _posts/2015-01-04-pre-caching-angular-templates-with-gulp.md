@@ -3,6 +3,7 @@ title: Pre-caching Angular templates with Gulp
 layout: post
 permalink: /pre-caching-angular-templates-with-gulp
 twitter_url: https://twitter.com/paulsalaets/status/552117335264620545
+meta_description: Using gulp to pre-cache Angular templates so they are included with the initial app load
 ---
 
 In production deployments, include directive and route templates as part of your initial js load to reduce http requests made when using your app.

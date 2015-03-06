@@ -2,6 +2,7 @@
 title: Chaining Angular $http promises
 layout: post
 twitter_url: https://twitter.com/paulsalaets/status/572763282488094720
+meta_description: The success() and error() methods on promises returned by the Angular $http service do not chain like then()
 ---
 
 Angular adds `success()` and `error()` convenience methods to promises returned by `$http` but they don't work the same as `then()`.

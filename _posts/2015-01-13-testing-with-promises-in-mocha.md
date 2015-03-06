@@ -3,6 +3,7 @@ title: Testing with Promises in Mocha
 layout: post
 permalink: /testing-with-promises-in-mocha
 twitter_url: https://twitter.com/paulsalaets/status/555013081370066945
+meta_description: Writing Mocha tests for code that uses promises
 ---
 
 As of Mocha [1.18.0](https://github.com/mochajs/mocha/blob/master/HISTORY.md#1180--2014-03-13) you can return a promise from a test and the test will pass if the promise is fulfilled or fail if the promise is rejected.
