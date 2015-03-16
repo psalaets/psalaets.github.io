@@ -19,7 +19,14 @@ layout: page
 </div>
 <script>
   (function iife(window, document) {
-    var pathParts = window.location.pathname.split('/')
+    var path = window.location.pathname
+
+    // trim trailing slash, if any
+    if (path.slice(-1) == '/') {
+      path = path.slice(0, -1)
+    }
+
+    var pathParts = path.split('/')
     var lastPart = pathParts[pathParts.length - 1] || ''
 
     document.getElementById('searchTerms').value = pathToSearchTerms(lastPart)
