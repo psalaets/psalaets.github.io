@@ -2,6 +2,7 @@
 title: localForage migrations in an Angular app
 layout: post
 meta_description: A module to migrate localForage data in an Angular app
+twitter_url: https://twitter.com/paulsalaets/status/577832690940030977
 ---
 
 My Angular app's offline data schema needed to change and I had to preserve existing data.
