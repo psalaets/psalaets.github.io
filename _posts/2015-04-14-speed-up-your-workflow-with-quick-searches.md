@@ -2,6 +2,7 @@
 title: Speed up your workflow with Quick Searches
 layout: post
 meta_description: Using browser quick searches to find things faster
+twitter_url: https://twitter.com/paulsalaets/status/587925563794415616
 ---
 
 As a developer I am always looking for ways to get more done in less time.
