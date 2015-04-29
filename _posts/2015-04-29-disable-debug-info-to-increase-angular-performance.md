@@ -2,6 +2,7 @@
 title: Disable debug info to increase Angular performance
 layout: post
 meta_description: Disable Angular debug info for a performance boost
+twitter_url: https://twitter.com/paulsalaets/status/593371511525871616
 ---
 
 Angular adds metadata to the DOM to aid development tools. Turning this off in production can give a performance boost.
