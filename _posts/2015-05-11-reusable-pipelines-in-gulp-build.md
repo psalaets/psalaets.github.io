@@ -2,6 +2,7 @@
 title: Making reusable pipelines in a Gulp build
 layout: post
 meta_description: How to make reusable processing pipelines in a Gulp build
+twitter_url: https://twitter.com/paulsalaets/status/597711855616978944
 ---
 
 Since a gulp build is just JavaScript code, you can make small processing pipelines and reuse them.
