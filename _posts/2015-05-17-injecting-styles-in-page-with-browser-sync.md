@@ -2,7 +2,6 @@
 title: Injecting styles into a page with BrowserSync
 layout: post
 meta_description: Using BrowserSync to update css on a page without reloading the browser.
-draft: true
 ---
 
 Every time I open the BrowserSync docs I find something awesome.
