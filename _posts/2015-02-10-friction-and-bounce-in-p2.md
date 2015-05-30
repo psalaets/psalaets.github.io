@@ -1,5 +1,5 @@
 ---
-title: Friction and bounce in p2
+title: Friction and bounce in p2.js
 layout: post
 twitter_url: https://twitter.com/paulsalaets/status/565141470278348802
 meta_description: Controlling friction and bounce of bodies in the p2 physics engine
