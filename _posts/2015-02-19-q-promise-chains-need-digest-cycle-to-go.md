@@ -26,33 +26,23 @@ When necessary, you can trigger a digest cycle by calling `$rootScope.$apply()`.
 
 {% highlight javascript linenos %}
 describe('beginGame()', function() {
-  var gameService, persistence, $rootScope;
+  var gameService, $rootScope;
 
-  // This uses Angular's underscore-wrap naming convention to avoid collisions
-  // between the variables above and function argument names below
-  // https://docs.angularjs.org/api/ngMock/function/angular.mock.inject
-  beforeEach(inject(function(_gameService_, _persistence_, $q, _$rootScope_) {
+  beforeEach(inject(function(_gameService_, _$rootScope_, $q) {
     gameService = _gameService_;
-    persistence = _persistence_;
     $rootScope = _$rootScope_;
 
-    // This uses jasmine's built-in spy/mock/stub functionality
-    // http://jasmine.github.io/2.1/introduction.html#section-Spies
-    spyOn(gameService, 'start');
-
-    // Stub method so it doesn't save anything, just return a resolved promise.
-    // The controller being tested uses the persistence service.
-    spyOn(persistence, 'savePlayers').and.callFake(function(players) {
+    // Stub method so it just returns a resolved promise.
+    // The controller being tested uses gameService.
+    spyOn(gameService, 'start').and.callFake(function(game) {
       return $q(function(resolve, reject) {
-        resolve(players);
+        resolve(game);
       });
     });
   }));
 
-  it('starts a new game with given players', function(done) {
-    controller.addPlayer('jill');
-    controller.addPlayer('joe');
-    controller.addPlayer('jen');
+  it('starts a game with given players', function(done) {
+    controller.addPlayers(['jill', 'joe', 'jen']);
 
     // here's the $q promise chain
     controller.beginGame()
@@ -65,12 +55,13 @@ describe('beginGame()', function() {
       }));
     }
 
-    $rootScope.$apply(); // manually trigger digest cycle
+    // manually trigger digest cycle
+    $rootScope.$apply();
   });
 });
 {% endhighlight %}
 
-Without line 41 the promise chain doesn't propagate, `done()` is never called and the test fails due to timeout.
+Without line 32 the promise chain doesn't propagate, `done()` is never called and the test fails due to timeout.
 
 ## Why $q works fine in app code
 
