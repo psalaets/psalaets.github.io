@@ -56,5 +56,5 @@ That is still a decent bit of typing so alias it to something memorable.
 In `.bashrc` or somewhere:
 
 {% highlight bash %}
-alias bowerq="yes '' | bower init"
+alias bowerf="yes '' | bower init"
 {% endhighlight %}
