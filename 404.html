@@ -1,12 +1,12 @@
 ---
-title: oops, something went wrong
+title: page not found
 permalink: "/404.html"
 layout: page
 ---
 
 <div class="row">
   <div class="col-sm-6">
-    The page you are looking for isn't here. Let's try to find it!
+    Maybe google can find it
     <form action="https://www.google.com/search" method="get">
       <input type="hidden" name="q" value="site:{{site.url}}">
       <div class="form-group">
@@ -32,7 +32,7 @@ layout: page
     document.getElementById('searchTerms').value = pathToSearchTerms(lastPart)
 
     function pathToSearchTerms(path) {
-      return path.replace(/-/g, ' ')
+      return path.replace(/\W/g, ' ')
     }
   })(this, this.document)
 </script>
