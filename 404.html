@@ -28,6 +28,7 @@ layout: page
 
     var pathParts = path.split('/')
     var lastPart = pathParts[pathParts.length - 1] || ''
+    lastPart = decodeURIComponent(lastPart)
 
     document.getElementById('searchTerms').value = pathToSearchTerms(lastPart)
 
