@@ -153,4 +153,4 @@ Maybe if your bodies are mostly circles `BOUNDING_CIRCLE` performs better?
 Rules I follow when selecting a broadphase are
 
 1. Start with the simplest broadphase and change it when it's not performing well enough.
-2. Run benchmarks relevant to _your game_ to compare broadphase implementations.
+2. Run benchmarks relevant to _your_ game to compare broadphase implementations.
