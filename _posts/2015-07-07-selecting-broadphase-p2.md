@@ -104,6 +104,8 @@ This is the default broadphase in p2 (with `axisIndex = 0`).
 
 ### Grid
 
+*Note: As of version 0.7.0 GridBroadphase is no longer in p2.js*
+
 [GridBroadphase](http://schteppe.github.io/p2.js/docs/classes/GridBroadphase.html) divides space into a grid of cells. Bodies are placed into the cells they overlap and bodies in the same cell are paired.
 
 GridBroadphase needs to know the size of the space ahead of time so the game must have [predetermined bounds](/posts/planes-in-p2/).
