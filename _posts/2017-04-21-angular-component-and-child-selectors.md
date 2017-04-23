@@ -75,9 +75,9 @@ ul > li {
 }
 {% endhighlight %}
 
-## A fix
+## Workaround
 
-Change the child's selector to something else, like an [attribute selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors).
+Change the child component's selector to something else, like an [attribute selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors).
 
 {% highlight javascript %}
 @Component({
