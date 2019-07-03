@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="Personal site of Paul Salaets">
+  <link rel="stylesheet" href="/1.0.0/main.css">
+  <link rel="canonical" href="https://paulsalaets.com/">
+  <title>
+    Testing with Promises in Mocha | paulsalaets.com
+  </title>
+</head>
+<body class="font-base font-sans text-gray-900">
+  <header class="p-4 sm:p-8">
+    <nav>
+  <a class="font-bold text-sm sm:text-base inline-block mr-4" href="/" title="Home">
+    Paul Salaets
+  </a>
+  <a class="text-sm sm:text-base inline-block mr-4 " href="/" title="Home">
+    Home
+  </a>
+  <a class="text-sm sm:text-base inline-block mr-4 " href="/about" title="About">
+    About
+  </a>
+  <a class="text-sm sm:text-base inline-block mr-4 " href="/archive" title="Archive">
+    Archive
+  </a>
+</nav>
+
+  </header>
+  <main class="pb-4">
+    <div class="mx-auto bg-white p-4 sm:max-w-3xl sm:px-16">
+      <article>
+  <header class="mb-8">
+    <h1 class="text-3xl font-bold">Testing with Promises in Mocha</h1>
+    <span class="text-sm">13 Jan 2015</span>
+  </header>
+  <section class="post-content">
+    <p>As of Mocha <a href="https://github.com/mochajs/mocha/blob/master/HISTORY.md#1180--2014-03-13">1.18.0</a> you can return a promise from a test and the test will pass if the promise is fulfilled or fail if the promise is rejected.</p>
+<h3>Versions used below</h3>
+<pre class="language-javascript"><code class="language-javascript"><span class="highlight-line"><span class="token punctuation">{</span></span><br><span class="highlight-line">  <span class="token string">"mocha"</span><span class="token punctuation">:</span> <span class="token string">"1.18.0"</span></span><br><span class="highlight-line"><span class="token punctuation">}</span></span></code></pre>
+<h2>Overview</h2>
+<p>The basic pattern is</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="highlight-line"><span class="token function">it</span><span class="token punctuation">(</span><span class="token string">'does something async with promises'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span><br><span class="highlight-line">  <span class="token keyword">return</span> <span class="token function">somethingAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span></code></pre>
+<p>Things to note here</p>
+<ul>
+<li>Test function <em>does not</em> declare a <code>done</code> parameter like it would if this used callbacks</li>
+<li>The promise from <code>somethingAsync</code> is returned</li>
+</ul>
+<h2>Verify a fulfilled promise</h2>
+<p>You can assert all you want inside the fulfill handler. Errors thrown by the fulfill handler cause the resulting promise to be rejected. That's fine, the test should fail if any of its asserts fail.</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="highlight-line"><span class="token function">it</span><span class="token punctuation">(</span><span class="token string">'does something async with promises'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span><br><span class="highlight-line">  <span class="token keyword">return</span> <span class="token function">somethingAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token function">fulfilled</span><span class="token punctuation">(</span><span class="token parameter">result</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span><br><span class="highlight-line">    <span class="token function">assert</span><span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span></span><br><span class="highlight-line">  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span></code></pre>
+<h2>Verify a rejected promise</h2>
+<p>When the code-under-test is expected to return a rejected promise, the promise can't be returned directly to Mocha or the test will fail.</p>
+<p>By specifying a reject handler in the <code>then</code> call, the error is &quot;caught&quot;, the resulting promise is fulfilled and the test passes.</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="highlight-line"><span class="token function">it</span><span class="token punctuation">(</span><span class="token string">'returns rejected promise on bad input'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span><br><span class="highlight-line">  <span class="token keyword">return</span> <span class="token function">somethingAsync</span><span class="token punctuation">(</span><span class="token string">'bad input'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token function">fulfilled</span><span class="token punctuation">(</span><span class="token parameter">result</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span><br><span class="highlight-line">    <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">'Promise was unexpectedly fulfilled. Result: '</span> <span class="token operator">+</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line">  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token function">rejected</span><span class="token punctuation">(</span><span class="token parameter">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span><br><span class="highlight-line">    <span class="token function">assert</span><span class="token punctuation">(</span><span class="token operator">...</span><span class="token punctuation">)</span></span><br><span class="highlight-line">  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span></code></pre>
+<p>Asserts are fine in the reject handler because if they fail, an Error is thrown and the resulting promise will be rejected.</p>
+
+  </section>
+</article>
+
+    </div>
+  </main>
+  <footer class="p-8 text-center text-sm border-t-2 border-gray-200">
+    <span class="whitespace-no-wrap">
+      ©2019 Paul Salaets.
+    </span>
+    <span class="whitespace-no-wrap">
+      Built with <a href="https://www.11ty.io/" rel="noopener noreferrer" class="text-blue-700 underline">Eleventy</a> and <a href="https://tailwindcss.com/" rel="noopener noreferrer" class="text-blue-700 underline">Tailwind CSS</a>.
+    </span>
+  </footer>
+</body>
+</html>

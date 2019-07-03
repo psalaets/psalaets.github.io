@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="Personal site of Paul Salaets">
+  <link rel="stylesheet" href="/1.0.0/main.css">
+  <link rel="canonical" href="https://paulsalaets.com/">
+  <title>
+    Selecting a broadphase in p2.js | paulsalaets.com
+  </title>
+</head>
+<body class="font-base font-sans text-gray-900">
+  <header class="p-4 sm:p-8">
+    <nav>
+  <a class="font-bold text-sm sm:text-base inline-block mr-4" href="/" title="Home">
+    Paul Salaets
+  </a>
+  <a class="text-sm sm:text-base inline-block mr-4 " href="/" title="Home">
+    Home
+  </a>
+  <a class="text-sm sm:text-base inline-block mr-4 " href="/about" title="About">
+    About
+  </a>
+  <a class="text-sm sm:text-base inline-block mr-4 " href="/archive" title="Archive">
+    Archive
+  </a>
+</nav>
+
+  </header>
+  <main class="pb-4">
+    <div class="mx-auto bg-white p-4 sm:max-w-3xl sm:px-16">
+      <article>
+  <header class="mb-8">
+    <h1 class="text-3xl font-bold">Selecting a broadphase in p2.js</h1>
+    <span class="text-sm">7 Jul 2015</span>
+  </header>
+  <section class="post-content">
+    <p>Choosing the right broadphase for your game can have performance benefits.</p>
+<h3>Versions used below</h3>
+<pre class="language-javascript"><code class="language-javascript"><span class="highlight-line"><span class="token punctuation">{</span></span><br><span class="highlight-line">  <span class="token string">"p2"</span><span class="token punctuation">:</span> <span class="token string">"0.6.1"</span></span><br><span class="highlight-line"><span class="token punctuation">}</span></span></code></pre>
+<h2>2D collision detection primer</h2>
+<p>2D collision detection is typically broken down into two main steps: broadphase and narrowphase. Broadphase happens first in execution but its usefulness is more apparent after talking about narrowphase, so I'll cover narrowphase first.</p>
+<h3>Narrowphase</h3>
+<p>Narrowphase is where body vs body collision checks are done. This involves some fairly expensive math depending on what shapes the bodies have.</p>
+<p>If there is a cheaper check to determine that two shapes definitely aren't colliding, we can skip the narrowphase check and get a performance win.</p>
+<p>The broadphase is where that cheaper check is done.</p>
+<h3>Broadphase</h3>
+<p>The broadphase determines what pairs <em>could</em> be colliding. The definition of could differs by implementation.</p>
+<p>Various implementations scale better than others and some are best suited for certain arrangements of game objects. It's easy to swap them out since they follow the same interface.</p>
+<h3>Simplified collision detection overview</h3>
+<p>Broadphase is cheap but imprecise. Narrowphase is precise but expensive.</p>
+<p>Here's how they work together:</p>
+<ol>
+<li>Start with a list of bodies. These are the physics objects in the game.</li>
+<li>Broadphase determines what pairs of bodies are worth a closer look. These pairs are passed on to narrowphase.</li>
+<li>Given pairs from step 2, narrowphase does body vs body collision checks.</li>
+<li>Apply physics and run game logic based on collisions.</li>
+</ol>
+<h2>Measuring performance</h2>
+<p>Picking the right broadphase for a game is mostly about which one makes the physics engine run fastest.</p>
+<h3>Timing</h3>
+<p>Worlds have a profiling flag which is off by default. When enabled, p2 will record how long the previous step took in milliseconds.</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="highlight-line">world<span class="token punctuation">.</span>doProfiling <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span></span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token comment">// now this will be populated after each step</span></span><br><span class="highlight-line">world<span class="token punctuation">.</span>lastStepTime</span></code></pre>
+<p>A handler for World's <code>postStep</code> event is a good place to check <code>lastStepTime</code>.</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="highlight-line"><span class="token keyword">var</span> stepTimes <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">world<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'postStep'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span><br><span class="highlight-line">  stepTimes<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>world<span class="token punctuation">.</span>lastStepTime<span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span></code></pre>
+<p>From here you can print, find average, find median, etc. Lower is better.</p>
+<p>That's a decent way to compare implementations. Here are the broadphase options that p2 has out of the box.</p>
+<h2>Broadphase implementations in p2</h2>
+<h3>Naive</h3>
+<p><a href="http://schteppe.github.io/p2.js/docs/classes/NaiveBroadphase.html">NaiveBroadphase</a> is as simple as it gets. It considers every body to be a potential collider with every other body. This results in the maximum number of narrowphase checks (n<sup>2</sup>).</p>
+<p>If your game is simple enough this may work the best because the overhead of the other broadphase implementations won't be worth it.</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="highlight-line">world<span class="token punctuation">.</span>broadphase <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">p2<span class="token punctuation">.</span>NaiveBroadphase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span></code></pre>
+<h3>Sweep and Prune</h3>
+<p><a href="http://schteppe.github.io/p2.js/docs/classes/SAPBroadphase.html">SAPBroadphase</a> sorts bodies along an axis and then moves down that list finding pairs by looking at body size and position of the next bodies.</p>
+<p>Control what axis to sort along by setting the <code>axisIndex</code> property.</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="highlight-line"><span class="token keyword">var</span> sap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">p2<span class="token punctuation">.</span>SAPBroadphase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line">sap<span class="token punctuation">.</span>axisIndex <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// 0 for x axis, 1 for y axis</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">world<span class="token punctuation">.</span>broadphase <span class="token operator">=</span> sap<span class="token punctuation">;</span></span></code></pre>
+<p>If game objects are spread out along the x axis, like in a sidescroller, <code>axisIndex = 0</code> would be better. If game objects are spread out along the y axis, <code>axisIndex = 1</code> is better.</p>
+<p>This is the default broadphase in p2 (with <code>axisIndex = 0</code>).</p>
+<h3>Grid</h3>
+<p><em>Note: As of version 0.7.0 GridBroadphase is no longer in p2.js</em></p>
+<p><a href="http://schteppe.github.io/p2.js/docs/classes/GridBroadphase.html">GridBroadphase</a> divides space into a grid of cells. Bodies are placed into the cells they overlap and bodies in the same cell are paired.</p>
+<p>GridBroadphase needs to know the size of the space ahead of time so the game must have <a href="/posts/planes-in-p2/">predetermined bounds</a>.</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="highlight-line"><span class="token keyword">var</span> grid <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">p2<span class="token punctuation">.</span>GridBroadphase</span><span class="token punctuation">(</span><span class="token punctuation">{</span></span><br><span class="highlight-line">  <span class="token comment">// Left edge of grid</span></span><br><span class="highlight-line">  xmin<span class="token punctuation">:</span> <span class="token operator">-</span><span class="token number">100</span><span class="token punctuation">,</span></span><br><span class="highlight-line">  <span class="token comment">// right edge of grid</span></span><br><span class="highlight-line">  xmax<span class="token punctuation">:</span>  <span class="token number">100</span><span class="token punctuation">,</span></span><br><span class="highlight-line">  <span class="token comment">// bottom edge of grid</span></span><br><span class="highlight-line">  ymin<span class="token punctuation">:</span> <span class="token operator">-</span><span class="token number">100</span><span class="token punctuation">,</span></span><br><span class="highlight-line">  <span class="token comment">// top edge of grid</span></span><br><span class="highlight-line">  ymax<span class="token punctuation">:</span>  <span class="token number">100</span><span class="token punctuation">,</span></span><br><span class="highlight-line">  <span class="token comment">// number of cells along x axis</span></span><br><span class="highlight-line">  nx<span class="token punctuation">:</span>    <span class="token number">10</span><span class="token punctuation">,</span></span><br><span class="highlight-line">  <span class="token comment">// number of cells along y axis</span></span><br><span class="highlight-line">  ny<span class="token punctuation">:</span>    <span class="token number">10</span></span><br><span class="highlight-line"><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">world<span class="token punctuation">.</span>broadphase <span class="token operator">=</span> grid<span class="token punctuation">;</span></span></code></pre>
+<p>Cell width will be <code>(xmax - xmin) / nx</code> and cell height will be <code>(ymax - ymin) / ny</code>.</p>
+<p>Ratio between cell size and the average size of game objects is important when trying to tune performance. I typically find that having cells 1-4 times the size of my game objects gives the best performance.</p>
+<p>Every game is different so don't take my word for it. Run benchmarks.</p>
+<h2>Another thing to tweak</h2>
+<p>When approximating a body's size, the p2 broadphase implementations use a bounding shape which can be simpler than the body's actual shape.</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="highlight-line"><span class="token comment">// axis-aligned bounding box, a.k.a. rectangle with no rotation</span></span><br><span class="highlight-line">broadphase<span class="token punctuation">.</span>boundingVolumeType <span class="token operator">=</span> p2<span class="token punctuation">.</span>Broadphase<span class="token punctuation">.</span><span class="token constant">AABB</span><span class="token punctuation">;</span> <span class="token comment">// this is the default</span></span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token comment">// or</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">broadphase<span class="token punctuation">.</span>boundingVolumeType <span class="token operator">=</span> p2<span class="token punctuation">.</span>Broadphase<span class="token punctuation">.</span><span class="token constant">BOUNDING_CIRCLE</span><span class="token punctuation">;</span></span></code></pre>
+<p>Maybe if your bodies are mostly circles <code>BOUNDING_CIRCLE</code> performs better?</p>
+<h2>Takeaways</h2>
+<p>Rules I follow when selecting a broadphase are</p>
+<ol>
+<li>Start with the simplest broadphase and change it when it's not performing well enough.</li>
+<li>Run benchmarks relevant to <em>your</em> game to compare broadphase implementations.</li>
+</ol>
+
+  </section>
+</article>
+
+    </div>
+  </main>
+  <footer class="p-8 text-center text-sm border-t-2 border-gray-200">
+    <span class="whitespace-no-wrap">
+      ©2019 Paul Salaets.
+    </span>
+    <span class="whitespace-no-wrap">
+      Built with <a href="https://www.11ty.io/" rel="noopener noreferrer" class="text-blue-700 underline">Eleventy</a> and <a href="https://tailwindcss.com/" rel="noopener noreferrer" class="text-blue-700 underline">Tailwind CSS</a>.
+    </span>
+  </footer>
+</body>
+</html>
